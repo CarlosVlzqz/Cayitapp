@@ -1,5 +1,5 @@
 import express from 'express';
-import validateSchema from '../middleware/schemaValidation.js';
+import validateSchema from '../../middleware/schemaValidation.js';
 import { itemsSchema } from '../schemas/requests/items/create';
 
 import {

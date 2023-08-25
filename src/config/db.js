@@ -1,4 +1,4 @@
-const { MongoClient, ObjectId } = require('mongodb');
+import { MongoClient, ObjectId } from 'mongodb';
 
 // Database URL (replace 'your_database_url' with your actual MongoDB connection URL)
 const dbUrl = 'my_env_variable';
@@ -6,27 +6,26 @@ const dbUrl = 'my_env_variable';
 // Database name
 const dbName = 'my_env_variable';
 
-// MongoDB client instance
 let client;
+let dbInstance;
 
 // Connect to the database
-async function connectDb() {
+export const connectDb = async () => {
   try {
     client = await MongoClient.connect(dbUrl, { useUnifiedTopology: true });
+    dbInstance = client.db(dbName);
     console.log('Database connected successfully');
   } catch (err) {
     console.error('Database connection error:', err);
     throw err;
   }
-}
+};
 
 // Get the database instance
-function getDb() {
-  return client.db(dbName);
-}
+export const getDb = () => dbInstance;
 
 // Close the database connection
-async function closeDb() {
+export const closeDb = async () => {
   try {
     await client.close();
     console.log('Database connection closed');
@@ -34,53 +33,38 @@ async function closeDb() {
     console.error('Error closing database connection:', err);
     throw err;
   }
-}
+};
 
 // Common MongoDB operations
+const getCollection = (collectionName) => dbInstance.collection(collectionName);
 
-// Insert a document into a collection
-const insertOne = async (collectionName, document) => {
-  const db = getDb();
-  const result = await db.collection(collectionName).insertOne(document);
+export const insertOne = async (collectionName, document) => {
+  const collection = getCollection(collectionName);
+  const result = await collection.insertOne(document);
   return result;
 };
 
-// Find documents that match a query in a collection
-const findMany = async (collectionName, query) => {
-  const db = getDb();
-  const cursor = await db.collection(collectionName).find(query);
+export const findMany = async (collectionName, query) => {
+  const collection = getCollection(collectionName);
+  const cursor = await collection.find(query);
   const documents = await cursor.toArray();
   return documents;
 };
 
-// Find a single document by its ID in a collection
-const findById = async (collectionName, id) => {
-  const db = getDb();
-  const document = await db.collection(collectionName).findOne({ _id: ObjectId(id) });
+export const findById = async (collectionName, id) => {
+  const collection = getCollection(collectionName);
+  const document = await collection.findOne({ _id: ObjectId(id) });
   return document;
 };
 
-// Update a document in a collection
-const updateOne = async (collectionName, id, update) => {
-  const db = getDb();
-  const result = await db.collection(collectionName).updateOne({ _id: ObjectId(id) }, { $set: update });
+export const updateOne = async (collectionName, id, update) => {
+  const collection = getCollection(collectionName);
+  const result = await collection.updateOne({ _id: ObjectId(id) }, { $set: update });
   return result;
 };
 
-// Delete a document from a collection
-const deleteOne = async (collectionName, id) => {
-  const db = getDb();
-  const result = await db.collection(collectionName).deleteOne({ _id: ObjectId(id) });
+export const deleteOne = async (collectionName, id) => {
+  const collection = getCollection(collectionName);
+  const result = await collection.deleteOne({ _id: ObjectId(id) });
   return result;
-};
-
-module.exports = {
-  connectDb,
-  getDb,
-  closeDb,
-  insertOne,
-  findMany,
-  findById,
-  updateOne,
-  deleteOne,
 };

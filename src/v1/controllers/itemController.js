@@ -4,10 +4,10 @@ import {
   findById as getItemById,
   updateOne as updateItem,
   deleteOne as deleteItem,
-} from '../config/db.js';
+} from '../../config/db.js';
 
-import { itemSchema } from '../../src/schemas/items';
-import { validateSchema } from '../utils/schemaValidation';
+import { itemSchema } from '../../v1/schemas/items';
+import { validateSchema } from '../../utils/schemaValidation';
 
 export const createNewItem = async (req, res) => {
   try {
