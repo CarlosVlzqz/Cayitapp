@@ -24,7 +24,7 @@ export class TagsController {
     data: {
       name: string;
       type: TagType;
-      userId?: string;
+      user_id?: string;
       color?: string;
     }
   ) {
@@ -34,14 +34,14 @@ export class TagsController {
   @Get()
   @ApiOperation({ summary: 'Find all tags available to a user' })
   @ApiResponse({ status: 200, description: 'List of tags' })
-  async findAll(@Query('userId') userId: string) {
-    return this.tagsService.findAllForUser(userId);
+  async findAll(@Query('user_id') user_id: string) {
+    return this.tagsService.findAllForUser(user_id);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a tag' })
   @ApiResponse({ status: 200, description: 'Tag deleted' })
-  async delete(@Param('id') id: string, @Query('userId') userId: string) {
-    return this.tagsService.delete(id, userId);
+  async delete(@Param('id') id: string, @Query('user_id') user_id: string) {
+    return this.tagsService.delete(id, user_id);
   }
 }

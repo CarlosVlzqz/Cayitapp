@@ -2,7 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { TagType } from 'shared-types';
 
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, collection: 'tags' })
 export class Tag extends Document {
   @Prop({ required: true, index: true })
   name: string;
@@ -11,10 +11,10 @@ export class Tag extends Document {
   type: TagType;
 
   @Prop({ index: true })
-  userId: string; // Optional: null for global tags, UID for user-specific tags
+  user_id: string;
 
   @Prop()
-  color: string; // For UI visualization
+  color: string;
 }
 
 export const TagSchema = SchemaFactory.createForClass(Tag);

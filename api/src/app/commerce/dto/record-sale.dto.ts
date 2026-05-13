@@ -6,17 +6,17 @@ export class RecordSaleDto {
   @ApiProperty({ example: '665f1a2b3c4d5e6f7a8b9c0d' })
   @IsNotEmpty()
   @IsString()
-  userProductId: string;
+  user_product_id: string;
 
   @ApiProperty({ example: 'user_123' })
   @IsNotEmpty()
   @IsString()
-  userId: string;
+  user_id: string;
 
   @ApiProperty({ example: 1500 })
   @IsNotEmpty()
   @IsNumber()
-  soldPrice: number;
+  sold_price: number;
 
   @ApiProperty({ enum: SalePlatform, example: SalePlatform.INSTAGRAM })
   @IsNotEmpty()
@@ -26,17 +26,17 @@ export class RecordSaleDto {
   @ApiPropertyOptional({ example: '665f1a2b3c4d5e6f7a8b9c0e' })
   @IsOptional()
   @IsString()
-  customerId?: string;
+  customer_id?: string;
 
   @ApiPropertyOptional({ example: 80 })
   @IsOptional()
   @IsNumber()
-  shippingFee?: number;
+  shipping_fee?: number;
 
   @ApiPropertyOptional({ example: 150 })
   @IsOptional()
   @IsNumber()
-  platformFee?: number;
+  platform_fee?: number;
 
   @ApiPropertyOptional({ example: 'Shipped via DHL' })
   @IsOptional()

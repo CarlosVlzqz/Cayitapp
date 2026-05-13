@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, collection: 'products' })
 export class Product extends Document {
   @Prop({ required: true, unique: true, index: true })
   barcode: string;
@@ -16,7 +16,7 @@ export class Product extends Document {
   category: string;
 
   @Prop()
-  imageUrl: string;
+  image_url: string;
 
   @Prop({ type: Object })
   metadata: Record<string, any>;

@@ -21,25 +21,25 @@ export class ProductsController {
   @ApiOperation({ summary: 'Scan a barcode and add it to the user closet' })
   @ApiResponse({ status: 201, description: 'Product successfully added or returned' })
   async scan(@Body() scanDto: ScanBarcodeDto) {
-    return this.productsService.scanByBarcode(scanDto.barcode, scanDto.userId);
+    return this.productsService.scanByBarcode(scanDto.barcode, scanDto.user_id);
   }
 
   @Patch('inventory/:id')
   @ApiOperation({ summary: 'Update details of an item in the closet' })
-  @ApiQuery({ name: 'userId', required: true })
+  @ApiQuery({ name: 'user_id', required: true })
   @ApiResponse({ status: 200, description: 'Item successfully updated' })
   async update(
     @Param('id') id: string,
-    @Query('userId') userId: string,
+    @Query('user_id') user_id: string,
     @Body() updateDto: UpdateUserProductDto
   ) {
-    return this.productsService.updateInventoryItem(id, userId, updateDto);
+    return this.productsService.updateInventoryItem(id, user_id, updateDto);
   }
 
-  @Get('closet/:userId')
+  @Get('closet/:user_id')
   @ApiOperation({ summary: 'Retrieve the entire closet of a user' })
   @ApiResponse({ status: 200, description: 'List of items with populated product data' })
-  async getCloset(@Param('userId') userId: string) {
-    return this.productsService.getUserCloset(userId);
+  async getCloset(@Param('user_id') user_id: string) {
+    return this.productsService.getUserCloset(user_id);
   }
 }

@@ -1,5 +1,6 @@
-import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsNumber, IsOptional, IsString, IsBoolean, IsArray, IsDate } from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import { ProductStatus, Condition } from 'shared-types';
 
 export class UpdateUserProductDto {
@@ -16,27 +17,38 @@ export class UpdateUserProductDto {
   @ApiPropertyOptional({ example: 1200 })
   @IsOptional()
   @IsNumber()
-  purchasePrice?: number;
+  purchase_price?: number;
 
   @ApiPropertyOptional({ example: 2500 })
   @IsOptional()
   @IsNumber()
-  sellingPrice?: number;
+  selling_price?: number;
 
   @ApiPropertyOptional({ example: 'My Favorite Sneakers' })
   @IsOptional()
   @IsString()
-  customTitle?: string;
+  custom_title?: string;
 
-  @ApiPropertyOptional({ example: 'Bought this at the flagship store' })
+  @ApiPropertyOptional({ example: 'Bought at the flagship store' })
   @IsOptional()
   @IsString()
   notes?: string;
 
   @ApiPropertyOptional({ type: [String], example: ['tag_id_1'] })
   @IsOptional()
+  @IsArray()
   @IsString({ each: true })
-  tagIds?: string[];
+  tag_ids?: string[];
+
+  @ApiPropertyOptional({ example: 1 })
+  @IsOptional()
+  @IsNumber()
+  quantity?: number;
+
+  @ApiPropertyOptional({ example: true })
+  @IsOptional()
+  @IsBoolean()
+  is_favorite?: boolean;
 
   // --- Clothing & Accessories ---
   @ApiPropertyOptional({ example: 'M' })
@@ -63,7 +75,7 @@ export class UpdateUserProductDto {
   @ApiPropertyOptional({ example: 'A123' })
   @IsOptional()
   @IsString()
-  batchCode?: string;
+  batch_code?: string;
 
   @ApiPropertyOptional({ example: '12M' })
   @IsOptional()
@@ -72,5 +84,7 @@ export class UpdateUserProductDto {
 
   @ApiPropertyOptional({ example: '2025-12-31' })
   @IsOptional()
-  expirationDate?: Date;
+  @Type(() => Date)
+  @IsDate()
+  expiration_date?: Date;
 }

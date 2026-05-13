@@ -16,15 +16,9 @@ export class ProductsService {
     private barcodeLookupService: BarcodeLookupService
   ) {}
 
-  /**
-   * Scans a barcode and adds it to the user's closet.
-   * If the product doesn't exist in the canonical catalog, it creates a placeholder.
-   */
-  async scanByBarcode(barcode: string, userId: string) {
-    // 1. Find canonical product
+  async scanByBarcode(barcode: string, user_id: string) {
     let product = await this.productModel.findOne({ barcode }).exec();
 
-    // 2. If not found, create a placeholder (placeholder for external API logic)
     if (!product) {
       const externalData = await this.barcodeLookupService.findProduct(barcode);
 
@@ -33,41 +27,32 @@ export class ProductsService {
         name: externalData?.name || `Scanned Item (${barcode})`,
         brand: externalData?.brand || 'Unknown',
         category: externalData?.category || 'Uncategorized',
-        imageUrl: externalData?.imageUrl,
+        image_url: externalData?.image_url,
       });
     }
 
-    // 3. Check if user already has this item in their closet
-    const existing = await (this.userProductModel as any)
-      .findOne({ productId: product._id, userId })
+    const existing = await this.userProductModel
+      .findOne({ product_id: product._id, user_id } as any)
       .exec();
 
     if (existing) {
-      return existing.populate('productId');
+      return existing.populate('product_id');
     }
 
-    // 4. Create a UserProduct instance for the user
     const userProduct = await new this.userProductModel({
-      productId: product._id,
-      userId,
+      product_id: product._id,
+      user_id,
       status: ProductStatus.OWNED,
     }).save();
 
-    return userProduct.populate('productId');
+    return userProduct.populate('product_id');
   }
 
-  /**
-   * Updates an existing item in the user's closet.
-   */
-  async updateInventoryItem(
-    id: string,
-    userId: string,
-    updateDto: any // Use DTO in controller, service handles partial update
-  ) {
+  async updateInventoryItem(id: string, user_id: string, updateDto: any) {
     const item = await this.userProductModel
-      .findOneAndUpdate({ _id: id, userId }, updateDto, { new: true })
-      .populate('productId')
-      .populate('tagIds')
+      .findOneAndUpdate({ _id: id, user_id }, updateDto, { new: true })
+      .populate('product_id')
+      .populate('tag_ids')
       .exec();
 
     if (!item) {
@@ -77,14 +62,11 @@ export class ProductsService {
     return item;
   }
 
-  /**
-   * Retrieves all items in a user's closet.
-   */
-  async getUserCloset(userId: string) {
+  async getUserCloset(user_id: string) {
     return this.userProductModel
-      .find({ userId })
-      .populate('productId')
-      .populate('tagIds')
+      .find({ user_id })
+      .populate('product_id')
+      .populate('tag_ids')
       .exec();
   }
 }

@@ -5,7 +5,7 @@ export class CreateCustomerDto {
   @ApiProperty({ example: 'user_123' })
   @IsNotEmpty()
   @IsString()
-  userId: string;
+  user_id: string;
 
   @ApiProperty({ example: 'María López' })
   @IsNotEmpty()
@@ -26,7 +26,7 @@ export class CreateCustomerDto {
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  preferredStyles?: string[];
+  preferred_styles?: string[];
 
   @ApiPropertyOptional({ example: 'Regular buyer, prefers size M' })
   @IsOptional()

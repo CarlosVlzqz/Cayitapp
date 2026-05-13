@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, collection: 'customers' })
 export class Customer extends Document {
   @Prop({ required: true, index: true })
-  userId: string; // The owner of this customer record
+  user_id: string;
 
   @Prop({ required: true })
   name: string;
@@ -16,7 +16,7 @@ export class Customer extends Document {
   phone: string;
 
   @Prop({ type: [String] })
-  preferredStyles: string[];
+  preferred_styles: string[];
 
   @Prop()
   notes: string;

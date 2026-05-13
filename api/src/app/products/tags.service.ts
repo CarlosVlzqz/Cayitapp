@@ -8,29 +8,18 @@ import { TagType } from 'shared-types';
 export class TagsService {
   constructor(@InjectModel(Tag.name) private tagModel: Model<Tag>) {}
 
-  /**
-   * Creates a new tag.
-   */
-  async create(data: { name: string; type: TagType; userId?: string; color?: string }) {
+  async create(data: { name: string; type: TagType; user_id?: string; color?: string }) {
     return this.tagModel.create(data);
   }
 
-  /**
-   * Retrieves all tags available to a user (user-specific + global).
-   */
-  async findAllForUser(userId: string) {
+  async findAllForUser(user_id: string) {
     return this.tagModel
-      .find({
-        $or: [{ userId: userId }, { userId: null }],
-      })
+      .find({ $or: [{ user_id }, { user_id: null }] })
       .exec();
   }
 
-  /**
-   * Deletes a tag if it belongs to the user.
-   */
-  async delete(id: string, userId: string) {
-    const result = await this.tagModel.deleteOne({ _id: id, userId }).exec();
+  async delete(id: string, user_id: string) {
+    const result = await this.tagModel.deleteOne({ _id: id, user_id }).exec();
     if (result.deletedCount === 0) {
       throw new NotFoundException('Tag not found or unauthorized');
     }

@@ -16,37 +16,29 @@ export class CommerceService {
     @InjectModel(UserProduct.name) private userProductModel: Model<UserProduct>
   ) {}
 
-  /**
-   * Customers (CRM)
-   */
   async createCustomer(data: CreateCustomerDto) {
     return this.customerModel.create(data);
   }
 
-  async getCustomers(userId: string) {
-    return this.customerModel.find({ userId }).exec();
+  async getCustomers(user_id: string) {
+    return this.customerModel.find({ user_id }).exec();
   }
 
-  /**
-   * Sales tracking
-   */
   async recordSale(data: RecordSaleDto) {
-    // 1. Record the sale
     const sale = await this.saleModel.create(data as any);
 
-    // 2. Update the product status to SOLD
-    await this.userProductModel.findByIdAndUpdate(data.userProductId, {
+    await this.userProductModel.findByIdAndUpdate(data.user_product_id, {
       status: ProductStatus.SOLD,
     });
 
     return sale;
   }
 
-  async getSalesHistory(userId: string) {
+  async getSalesHistory(user_id: string) {
     return this.saleModel
-      .find({ userId })
-      .populate('userProductId')
-      .populate('customerId')
+      .find({ user_id })
+      .populate('user_product_id')
+      .populate('customer_id')
       .exec();
   }
 }

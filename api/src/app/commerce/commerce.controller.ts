@@ -19,8 +19,8 @@ export class CommerceController {
   @Get('customers')
   @ApiOperation({ summary: 'Get all customers for a user' })
   @ApiResponse({ status: 200, description: 'List of customers' })
-  async getCustomers(@Query('userId') userId: string) {
-    return this.commerceService.getCustomers(userId);
+  async getCustomers(@Query('user_id') user_id: string) {
+    return this.commerceService.getCustomers(user_id);
   }
 
   @Post('sales')
@@ -33,7 +33,7 @@ export class CommerceController {
   @Get('sales')
   @ApiOperation({ summary: 'Get sales history for a user' })
   @ApiResponse({ status: 200, description: 'Sales history' })
-  async getSales(@Query('userId') userId: string) {
-    return this.commerceService.getSalesHistory(userId);
+  async getSales(@Query('user_id') user_id: string) {
+    return this.commerceService.getSalesHistory(user_id);
   }
 }

@@ -2,31 +2,31 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { SalePlatform } from 'shared-types';
 
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, collection: 'sales' })
 export class Sale extends Document {
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'UserProduct', required: true })
-  userProductId: MongooseSchema.Types.ObjectId;
+  user_product_id: MongooseSchema.Types.ObjectId;
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Customer', index: true })
-  customerId: MongooseSchema.Types.ObjectId;
+  customer_id: MongooseSchema.Types.ObjectId;
 
   @Prop({ required: true, index: true })
-  userId: string; // The owner of this sale
+  user_id: string;
 
   @Prop({ required: true })
-  soldPrice: number;
+  sold_price: number;
 
   @Prop({ type: String, enum: SalePlatform, default: SalePlatform.OTHER })
   platform: SalePlatform;
 
   @Prop({ default: Date.now })
-  soldDate: Date;
+  sold_date: Date;
 
   @Prop()
-  shippingFee: number;
+  shipping_fee: number;
 
   @Prop()
-  platformFee: number;
+  platform_fee: number;
 
   @Prop()
   notes: string;

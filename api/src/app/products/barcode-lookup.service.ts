@@ -5,7 +5,7 @@ export interface ExternalProductData {
   name: string;
   brand?: string;
   category?: string;
-  imageUrl?: string;
+  image_url?: string;
 }
 
 @Injectable()
@@ -27,7 +27,7 @@ export class BarcodeLookupService {
           name: p.product_name || p.generic_name || 'Unknown Beauty Product',
           brand: p.brands,
           category: p.categories?.split(',')[0],
-          imageUrl: p.image_url,
+          image_url: p.image_url,
         };
       }
       return null;
@@ -53,7 +53,7 @@ export class BarcodeLookupService {
           name: item.title,
           brand: item.brand,
           category: item.category?.split(' > ').pop(), // Get the most specific category
-          imageUrl: item.images?.[0],
+          image_url: item.images?.[0],
         };
       }
       return null;
@@ -98,7 +98,7 @@ export class BarcodeLookupService {
           name: p.product_name || p.generic_name || 'Unknown Product',
           brand: p.brands,
           category: p.categories?.split(',')[0],
-          imageUrl: p.image_url,
+          image_url: p.image_url,
         };
       }
       return null;

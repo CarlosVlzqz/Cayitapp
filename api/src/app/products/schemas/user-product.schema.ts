@@ -2,13 +2,13 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import { ProductStatus, Condition } from 'shared-types';
 
-@Schema({ timestamps: true })
+@Schema({ timestamps: true, collection: 'user_products' })
 export class UserProduct extends Document {
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Product', required: true })
-  productId: MongooseSchema.Types.ObjectId;
+  product_id: MongooseSchema.Types.ObjectId;
 
   @Prop({ required: true, index: true })
-  userId: string; // Firebase UID or similar
+  user_id: string;
 
   @Prop({
     type: String,
@@ -22,49 +22,49 @@ export class UserProduct extends Document {
   condition: Condition;
 
   @Prop()
-  purchasePrice: number;
+  purchase_price: number;
 
   @Prop()
-  sellingPrice: number;
+  selling_price: number;
 
   @Prop()
-  customTitle: string;
+  custom_title: string;
 
   @Prop()
   notes: string;
 
   // --- Clothing & Accessory Specifics ---
   @Prop()
-  size: string; // e.g., "M", "32x30", "9.5 US"
+  size: string;
 
   @Prop()
   color: string;
 
   @Prop()
-  material: string; // e.g., "100% Cotton", "Leather"
+  material: string;
 
   @Prop()
-  season: string; // e.g., "FW24", "Summer"
+  season: string;
 
   // --- Beauty Specifics ---
   @Prop()
-  batchCode: string;
+  batch_code: string;
 
   @Prop()
-  pao: string; // Period After Opening (e.g., "12M")
+  pao: string;
 
   @Prop()
-  expirationDate: Date;
+  expiration_date: Date;
 
   // --- Metadata ---
   @Prop({ type: [MongooseSchema.Types.ObjectId], ref: 'Tag', index: true })
-  tagIds: MongooseSchema.Types.ObjectId[];
+  tag_ids: MongooseSchema.Types.ObjectId[];
 
   @Prop({ default: 1 })
   quantity: number;
 
   @Prop({ default: false })
-  isFavorite: boolean;
+  is_favorite: boolean;
 }
 
 export const UserProductSchema = SchemaFactory.createForClass(UserProduct);
