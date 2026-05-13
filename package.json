@@ -2,6 +2,12 @@
   "name": "Cayitapp",
   "version": "0.0.0",
   "private": true,
+  "scripts": {
+    "start": "nx serve api",
+    "build": "nx build api",
+    "lint": "nx lint api",
+    "test": "nx test api"
+  },
   "devDependencies": {
     "@angular-devkit/core": "~21.2.0",
     "@angular-devkit/schematics": "~21.2.0",
@@ -62,7 +68,10 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/mongoose": "^11.0.4",
     "@nestjs/platform-express": "^11.0.0",
+    "@nestjs/swagger": "^11.4.2",
     "axios": "^1.6.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
     "expo": "~54.0.0",
     "expo-splash-screen": "~31.0.11",
     "expo-status-bar": "~3.0.8",
@@ -75,6 +84,7 @@
     "react-native-svg-transformer": "~1.5.1",
     "react-native-web": "~0.21.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.0"
+    "rxjs": "^7.8.0",
+    "swagger-ui-express": "^5.0.1"
   }
 }
